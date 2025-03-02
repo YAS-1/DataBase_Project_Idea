@@ -1,0 +1,16 @@
+1. First you need to have a well detailed design of your application 
+
+2. Tables created with entity and referential integrity .
+
+3. Various data retrieval aspects....Generate various reports that can be stored as views 
+
+4. Retrieving data from multiple tables ....Natural , left outer , right outer and full joins. 
+    These can as well be stored as views 
+
+5. Use of case conditional statements (select , update , delete ) 
+
+6. Applicability of all the different  constraints . 
+
+7. All your tables /objects should have sample data of atleast 5 records.
+
+8. Any added database features will be a plus.

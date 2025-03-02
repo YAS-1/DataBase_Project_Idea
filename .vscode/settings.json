@@ -1,0 +1,26 @@
+{
+    "cSpell.words": [
+        "categoryid",
+        "deliverydate",
+        "deliveryid",
+        "drivername",
+        "droppoint",
+        "farmerid",
+        "farmername",
+        "farmersmarket",
+        "farmname",
+        "orderdate",
+        "orderitems",
+        "orderstatus",
+        "paymentdate",
+        "paymentid",
+        "paymentmethod",
+        "paymentstatus",
+        "productid",
+        "productname",
+        "reviewdate",
+        "reviewid",
+        "totalamount",
+        "vehicletype"
+    ]
+}
