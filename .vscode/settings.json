@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "atleast",
         "categoryid",
         "deliverydate",
         "deliveryid",
@@ -9,6 +10,21 @@
         "farmername",
         "farmersmarket",
         "farmname",
+        "Kabakumba",
+        "Kabito",
+        "Kakooza",
+        "Kamwokya",
+        "Karungin",
+        "Kasima",
+        "Kiggundu",
+        "Kimbugwe",
+        "Kyobe",
+        "Lawerence",
+        "Lule",
+        "Mugisha",
+        "Musinguzi",
+        "Nabasa",
+        "Namasuba",
         "orderdate",
         "orderitems",
         "orderstatus",
@@ -20,7 +36,11 @@
         "productname",
         "reviewdate",
         "reviewid",
+        "Rubaga",
+        "Sempala",
+        "Ssebuwufu",
         "totalamount",
-        "vehicletype"
+        "vehicletype",
+        "Yusuf"
     ]
 }
