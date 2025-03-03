@@ -385,6 +385,17 @@ JOIN orders o ON d.deliveryid = o.deliveryid
 GROUP BY d.drivername
 ORDER BY total_deliveries DESC;
 
+--VIEW FOR WHICH NUMBER OF PRODUCTS IN EACH CATEGORY
+--View shows the number of products in each category
+CREATE VIEW products_per_category AS
+SELECT c.categoryname, COUNT(p.productid) AS number_of_products
+FROM categories c 
+JOIN products p ON c.categoryid = p.categoryid
+GROUP BY c.categoryname
+ORDER BY number_of_products;
+
+
+
 --SELECTING ORDERS WHOSE PAYMENT STATUS IS PENDING
 SELECT * FROM orders WHERE paymentstatus = 'Pending';
 
