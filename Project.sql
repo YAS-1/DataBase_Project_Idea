@@ -317,9 +317,11 @@ SELECT * FROM reviews;
 --1. INNER JOINING ORDERS AND CUSTOMERS
 --Shows the order details and the details of the customer who made the order
 CREATE VIEW orders_with_customer AS
-SELECT o.orderid, o.orderdate, o.orderstatus, o.totalamount, c.cname, c.email, c.phoneNumber
+SELECT o.orderid, o.orderdate, o.orderstatus, o.totalamount, c.cname, c.email, c.phoneNumber --o is an alias for orders and c is an alias for customers
 FROM orders o
 JOIN customers c ON o.cid = c.cid;
+
+
 
 --2. RIGHT JOINING PRODUCTS AND CATEGORIES
 --Shows the product details and the category the product belongs to
@@ -328,62 +330,83 @@ SELECT p.productid, p.productname, p.description, p.price, c.categoryname
 FROM products p
 RIGHT JOIN categories c ON p.categoryid = c.categoryid;
 
+
+
+
 --3. FULL JOINING ORDERS AND DELIVERIES (MERGES LEFT AND RIGHT JOIN)
 --Shows the order details and the details of the delivery
 CREATE VIEW orders_with_deliveries AS
+SELECT o.orderid, o.orderdate, o.orderstatus, o.totalamount, d.deliveryid, d.drivername, d.carrierNo, d.deliverydate --o is an alias for orders and d is an alias for deliveries
+FROM orders o
+LEFT JOIN deliveries d ON o.deliveryid = d.deliveryid --LEFT JOIN
+UNION --UNION IS USED TO MERGE THE LEFT AND RIGHT JOIN
 SELECT o.orderid, o.orderdate, o.orderstatus, o.totalamount, d.deliveryid, d.drivername, d.carrierNo, d.deliverydate
 FROM orders o
-LEFT JOIN deliveries d ON o.deliveryid = d.deliveryid
-UNION
-SELECT o.orderid, o.orderdate, o.orderstatus, o.totalamount, d.deliveryid, d.drivername, d.carrierNo, d.deliverydate
-FROM orders o
-RIGHT JOIN deliveries d ON o.deliveryid = d.deliveryid
+RIGHT JOIN deliveries d ON o.deliveryid = d.deliveryid --RIGHT JOIN
 WHERE o.deliveryid IS NULL;
+
+
 
 --FULL JOINING ORDERS AND PAYMENTS(MERGES LEFT AND RIGHT JOIN)
 --Shows the order details and the details of the payment
 CREATE VIEW orders_with_payments AS
+SELECT o.orderid, o.orderdate, o.orderstatus, o.totalamount, o.droppoint, p.paymentid, p.paymentdate, p.paymentmethod, p.amount --o is an alias for orders and p is an alias for payment
+FROM orders o
+LEFT JOIN payment p ON o.orderid = p.orderid --LEFT JOIN
+UNION --UNION IS USED TO MERGE THE LEFT AND RIGHT JOIN
 SELECT o.orderid, o.orderdate, o.orderstatus, o.totalamount, o.droppoint, p.paymentid, p.paymentdate, p.paymentmethod, p.amount
 FROM orders o
-LEFT JOIN payment p ON o.orderid = p.orderid
-UNION
-SELECT o.orderid, o.orderdate, o.orderstatus, o.totalamount, o.droppoint, p.paymentid, p.paymentdate, p.paymentmethod, p.amount
-FROM orders o
-RIGHT JOIN payment p ON o.orderid = p.orderid
+RIGHT JOIN payment p ON o.orderid = p.orderid --RIGHT JOIN
 WHERE o.orderid IS NULL;
+
+
+
 
 --LEFT JOINING CUSTOMERS AND REVIEWS
 --Shows customer details and the review each customer made
 CREATE VIEW customers_with_reviews AS
-SELECT c.cname, c.email, c.phoneNumber, r.reviewid, r.rating, r.comment, r.reviewdate
+SELECT c.cname, c.email, c.phoneNumber, r.reviewid, r.rating, r.comment, r.reviewdate --c is an alias for customers and r is an alias for reviews
 FROM customers c
-LEFT JOIN reviews r ON c.cid = r.cid;
+LEFT JOIN reviews r ON c.cid = r.cid; --LEFT JOIN
+
+
+
+
 
 --LEFT JOINING PRODUCTS AND REVIEWS
 --Shows the product and the review each product got
 CREATE VIEW products_with_reviews AS
-SELECT p.productid, p.productname, p.description, p.price, r.reviewid, r.rating, r.comment, r.reviewdate
+SELECT p.productid, p.productname, p.description, p.price, r.reviewid, r.rating, r.comment, r.reviewdate --p is an alias for products and r is an alias for reviews
 FROM products p
-LEFT JOIN reviews r ON p.productid = r.productid;
+LEFT JOIN reviews r ON p.productid = r.productid; --LEFT JOIN
+
+
 
 
 --VIEW FOR FARMER THAT SUPPLIES THE MOST PRODUCTS
 --View that shows the count of products each farmer supplied
 CREATE VIEW products_per_farmer AS
-SELECT f.farmername, COUNT(p.productid) AS total_products
+SELECT f.farmername, COUNT(p.productid) AS total_products --f is an alias for farmers and p is an alias for products
 FROM farmers f
 JOIN products p ON f.farmerid = p.farmerid
-GROUP BY f.farmerid
-ORDER BY total_products DESC;
+GROUP BY f.farmerid--GROUP BY IS USED TO GROUP THE RESULTS BY THE FARMER ID
+ORDER BY total_products DESC; --ORDER BY IS USED TO ORDER THE RESULTS IN DESCENDING ORDER
+
+
+
 
 --VIEW FOR WHO MADE THE MOST DELIVERIES
 --View that shows which delivery person made the most deliveries
 CREATE VIEW deliveries_per_driver AS
-SELECT d.drivername, COUNT(o.orderid) AS total_deliveries
+SELECT d.drivername, COUNT(o.orderid) AS total_deliveries --
 FROM deliveries d
-JOIN orders o ON d.deliveryid = o.deliveryid
+JOIN orders o ON d.deliveryid = o.deliveryid 
 GROUP BY d.drivername
 ORDER BY total_deliveries DESC;
+
+
+
+
 
 --VIEW FOR WHICH NUMBER OF PRODUCTS IN EACH CATEGORY
 --View shows the number of products in each category
@@ -393,6 +416,22 @@ FROM categories c
 JOIN products p ON c.categoryid = p.categoryid
 GROUP BY c.categoryname
 ORDER BY number_of_products;
+
+
+
+
+
+--VIEW FOR ORDERS DELIVERED AND THE AMOUNT OF MONEY PAID
+--View shows the total amount of money paid for orders delivered
+CREATE VIEW delivered_orders AS
+SELECT c.cname, SUM(o.totalamount) AS total_amount
+FROM customers c
+JOIN orders o ON c.cid = o.cid
+WHERE o.orderstatus = 'Delivered'
+GROUP BY c.cname
+HAVING SUM(o.totalamount) > 20000;
+
+
 
 
 
@@ -407,8 +446,6 @@ SELECT * FROM orders WHERE totalamount > 50000;
 
 --SELECTING PRODUCTS WITH PRICE GREATER THAN 5000
 SELECT * FROM products WHERE price > 5000;
-
-
 
 
 --UPDATING ORDER 'O4'
